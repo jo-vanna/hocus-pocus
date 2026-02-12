@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hocus Pocus — Where Complexity Meets Clarity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0D0D0D;
+            --parchment: #F5F0E8;
+            --whisky: #C4883A;
+            --smoke: #6B6B6B;
+            --ember: #D4533B;
+            --midnight: #1A1A2E;
+            --chalk: #E8E4DC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--ink);
+            color: var(--parchment);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--ink) 0%, transparent 100%);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            color: var(--parchment);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--smoke);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--whisky);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, var(--ink) 0%, var(--midnight) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 80px 40px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, var(--whisky));
+        }
+
+        .logo-mark {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .logo-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--parchment) 0%, var(--whisky) 50%, var(--parchment) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--smoke);
+            margin-bottom: 40px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--chalk);
+            max-width: 550px;
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        /* Section styles */
+        section {
+            padding: 120px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--whisky);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: var(--parchment);
+        }
+
+        p {
+            color: var(--smoke);
+            font-size: 1.05rem;
+            max-width: 650px;
+            margin-bottom: 20px;
+        }
+
+        /* The Concept Section */
+        .concept-section {
+            background: var(--midnight);
+            padding: 120px 60px;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .concept-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .concept-left h2 {
+            font-size: 2.2rem;
+            line-height: 1.3;
+        }
+
+        .concept-right {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .concept-card {
+            background: rgba(196, 136, 58, 0.08);
+            border-left: 3px solid var(--whisky);
+            padding: 25px 30px;
+        }
+
+        .concept-card p {
+            margin: 0;
+            color: var(--chalk);
+            font-size: 1rem;
+        }
+
+        /* Upcoming Event Section */
+        .event-section {
+            background: var(--parchment);
+            color: var(--ink);
+            padding: 120px 60px;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .event-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .event-section .section-label {
+            color: var(--ember);
+        }
+
+        .event-section h2 {
+            color: var(--ink);
+        }
+
+        .event-section p {
+            color: var(--smoke);
+        }
+
+        .event-card {
+            background: var(--ink);
+            color: var(--parchment);
+            padding: 50px;
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .event-details h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--whisky);
+        }
+
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .event-meta-item {
+            display: flex;
+            gap: 15px;
+            align-items: baseline;
+        }
+
+        .event-meta-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--smoke);
+            min-width: 80px;
+        }
+
+        .event-meta-value {
+            color: var(--chalk);
+            font-size: 0.95rem;
+        }
+
+        .event-meta-value a {
+            color: var(--whisky);
+            text-decoration: none;
+        }
+
+        .event-meta-value a:hover {
+            text-decoration: underline;
+        }
+
+        .event-cta {
+            text-align: center;
+        }
+
+        .event-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: var(--whisky);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .event-cta-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--smoke);
+            margin-top: 10px;
+        }
+
+        /* Hosts Section */
+        .hosts-section {
+            padding: 120px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hosts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .host-card {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .host-photo {
+            width: 120px;
+            height: 120px;
+            background: var(--midnight);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .host-photo-placeholder {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--smoke);
+            text-transform: uppercase;
+        }
+
+        .host-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: var(--parchment);
+        }
+
+        .host-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--whisky);
+            margin-bottom: 15px;
+        }
+
+        .host-info p {
+            font-size: 0.9rem;
+            color: var(--smoke);
+            margin: 0;
+        }
+
+        /* Request Invite Section */
+        .invite-section {
+            background: linear-gradient(180deg, var(--midnight) 0%, var(--ink) 100%);
+            padding: 120px 60px;
+            margin: 0;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        .invite-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .invite-section h2 {
+            margin-bottom: 15px;
+        }
+
+        .invite-section p {
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .invite-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .invite-form input,
+        .invite-form textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--smoke);
+            padding: 16px 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--parchment);
+            transition: border-color 0.3s;
+        }
+
+        .invite-form input::placeholder,
+        .invite-form textarea::placeholder {
+            color: var(--smoke);
+        }
+
+        .invite-form input:focus,
+        .invite-form textarea:focus {
+            outline: none;
+            border-color: var(--whisky);
+        }
+
+        .invite-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .invite-form button {
+            background: var(--whisky);
+            color: var(--ink);
+            border: none;
+            padding: 18px 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .invite-form button:hover {
+            background: var(--parchment);
+        }
+
+        .invite-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--smoke);
+            margin-top: 20px;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 120px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-placeholder {
+            background: var(--midnight);
+            padding: 80px 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .gallery-placeholder p {
+            margin: 0 auto;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--ink);
+            padding: 60px;
+            text-align: center;
+            border-top: 1px solid var(--midnight);
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            color: var(--parchment);
+            margin-bottom: 20px;
+        }
+
+        .footer-tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--smoke);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--smoke);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--whisky);
+        }
+
+        .footer-credit {
+            font-size: 0.8rem;
+            color: var(--smoke);
+        }
+
+        .footer-credit a {
+            color: var(--whisky);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            nav {
+                padding: 20px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 80px 30px;
+            }
+
+            .concept-content,
+            .event-card,
+            .hosts-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .event-cta {
+                order: -1;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 12vw, 5rem);
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .concept-section,
+            .event-section,
+            .invite-section {
+                padding: 80px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-logo">HP※</div>
+        <div class="nav-links">
+            <a href="#concept">The Concept</a>
+            <a href="#events">Events</a>
+            <a href="#hosts">Hosts</a>
+            <a href="#invite">Request Invite</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="logo-mark">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="38" stroke="#C4883A" stroke-width="1" fill="none" opacity="0.3"/>
+                <path d="M40 10 L40 70" stroke="#F5F0E8" stroke-width="2"/>
+                <path d="M10 40 L70 40" stroke="#F5F0E8" stroke-width="2"/>
+                <path d="M18 18 L62 62" stroke="#F5F0E8" stroke-width="2"/>
+                <path d="M62 18 L18 62" stroke="#F5F0E8" stroke-width="2"/>
+                <circle cx="40" cy="40" r="6" fill="#C4883A"/>
+            </svg>
+        </div>
+        <h1>Hocus Pocus</h1>
+        <p class="tagline">No wands. No BS. Just what works.</p>
+        <p class="hero-subtitle">An intimate series for leaders who are done with magic tricks and ready for real transformation.</p>
+    </section>
+
+    <!-- The Concept -->
+    <section class="concept-section" id="concept">
+        <div class="concept-content">
+            <div class="concept-left">
+                <span class="section-label">The Concept</span>
+                <h2>Where Complexity Meets Clarity</h2>
+                <p>The phrase "hocus pocus" originally mocked fake magic, nonsense words used by charlatans to distract while they pulled tricks. Sound familiar?</p>
+                <p>We're calling out the expensive fiction: AI hype that evaporates on implementation, consultants who complicate simple things, transformation theatre with big words and questionable outcomes.</p>
+                <p>This is the anti-magic show. Real conversation. Practical insights. No smoke machines.</p>
+            </div>
+            <div class="concept-right">
+                <div class="concept-card">
+                    <p><strong>The Format:</strong> An offline podcast. Two hosts in conversation, not presentation. You're eavesdropping on something real.</p>
+                </div>
+                <div class="concept-card">
+                    <p><strong>The Room:</strong> 20 seats. No recording. No slides. Just the conversation that never happens at conferences.</p>
+                </div>
+                <div class="concept-card">
+                    <p><strong>The Feel:</strong> A private salon meets a late-night podcast. Intellectual but never stuffy. Bring your skepticism.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Event -->
+    <section class="event-section" id="events">
+        <div class="event-content">
+            <span class="section-label">Upcoming</span>
+            <h2>Next Episode</h2>
+            <p>Each Hocus Pocus event explores a different provocation at the intersection of complexity and AI. Here's what's next.</p>
+
+            <div class="event-card">
+                <div class="event-details">
+                    <h3>Episode 01: The Uncomfortable Truth</h3>
+                    <p style="color: var(--chalk); margin-bottom: 0;">What if most of what you've been told about AI transformation is expensive fiction? Let's talk about what actually works.</p>
+                    <div class="event-meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-label">Date</span>
+                            <span class="event-meta-value">TBA · Spring 2026</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-label">Time</span>
+                            <span class="event-meta-value">Evening · ~2 hours</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-label">Location</span>
+                            <span class="event-meta-value"><a href="https://www.ruby-workspaces.com/de/wien/ruby-paul-workspaces" target="_blank">Ruby Paul Workspaces, Vienna</a></span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-label">Seats</span>
+                            <span class="event-meta-value">20 · By invitation only</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-cta">
+                    <div class="event-number">#01</div>
+                    <p class="event-cta-text">Inaugural Edition</p>
+                </div>
+            </div>
+
+            <!-- Venue Images -->
+            <div style="margin-top: 50px;">
+                <span class="section-label" style="color: var(--ember);">The Venue</span>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: 20px;">Ruby Paul Workspaces, Vienna</h3>
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+                    <img src="Ruby Paul Meet Up Space .webp" alt="Ruby Paul Meet Up Space" style="width: 100%; height: 300px; object-fit: cover; border-radius: 4px;">
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <img src="Ruby_Paul_GH102276_web_©Gregor_Hofbauer.webp" alt="Ruby Paul Workspace" style="width: 100%; height: 142px; object-fit: cover; border-radius: 4px;">
+                        <img src="Ruby_Paul_GH102222_web_©Gregor_Hofbauer.webp" alt="Ruby Paul Interior" style="width: 100%; height: 142px; object-fit: cover; border-radius: 4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hosts -->
+    <section class="hosts-section" id="hosts">
+        <span class="section-label">Your Hosts</span>
+        <h2>The Conversation Starters</h2>
+        <p>Two perspectives. One on complexity, one on AI and automation. Both allergic to bullshit.</p>
+
+        <div class="hosts-grid">
+            <div class="host-card">
+                <img src="Thomas.jpeg" alt="Thomas Pisar" style="width: 120px; height: 120px; object-fit: cover; border-radius: 2px; flex-shrink: 0;">
+                <div class="host-info">
+                    <h3>Thomas Pisar</h3>
+                    <p class="host-role">Complexity & Systems</p>
+                    <p>[Bio placeholder — perspective on complexity, Cynefin, emergent practice]</p>
+                </div>
+            </div>
+            <div class="host-card">
+                <img src="Joanna.jpeg" alt="Joanna Bakas" style="width: 120px; height: 120px; object-fit: cover; border-radius: 2px; flex-shrink: 0;">
+                <div class="host-info">
+                    <h3>Joanna Bakas</h3>
+                    <p class="host-role">AI & Automation</p>
+                    <p>[Bio placeholder — perspective on practical AI, automation architecture, real implementation]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Request Invite -->
+    <section class="invite-section" id="invite">
+        <div class="invite-content">
+            <span class="section-label">Join Us</span>
+            <h2>Request an Invitation</h2>
+            <p>Hocus Pocus is invite-only. Not for exclusivity's sake, but because real conversation requires a curated room. Tell us why you belong in it.</p>
+
+            <form class="invite-form">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="role" placeholder="Role & company">
+                <textarea name="why" placeholder="What's the one business problem keeping you up at night that you suspect has no clean answer?"></textarea>
+                <button type="submit">Request Invite</button>
+            </form>
+            <p class="invite-note">We read every request. Personally.</p>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery-section" id="gallery">
+        <span class="section-label">From the Room</span>
+        <h2>Gallery</h2>
+        <div class="gallery-placeholder">
+            <p>Photos from past events will appear here.<br/>Check back after Episode 01.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Hocus Pocus</div>
+        <p class="footer-tagline">Where Complexity Meets Clarity</p>
+        <div class="footer-links">
+            <a href="#concept">Concept</a>
+            <a href="#events">Events</a>
+            <a href="#invite">Request Invite</a>
+        </div>
+        <p class="footer-credit">A <a href="https://frontira.io" target="_blank">Frontira</a> production</p>
+    </footer>
+
+</body>
+</html>
