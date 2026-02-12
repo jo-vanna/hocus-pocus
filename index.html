@@ -737,14 +737,57 @@
             <h2>Request an Invitation</h2>
             <p>Hocus Pocus is invite-only. Not for exclusivity's sake, but because real conversation requires a curated room. Tell us why you belong in it.</p>
 
-            <form class="invite-form">
+            <form class="invite-form" id="invite-form">
                 <input type="text" name="name" placeholder="Your name" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="text" name="role" placeholder="Role & company">
                 <textarea name="why" placeholder="What's the one business problem keeping you up at night that you suspect has no clean answer?"></textarea>
-                <button type="submit">Request Invite</button>
+                <button type="submit" id="invite-btn">Request Invite</button>
+                <p id="invite-msg" style="display:none; font-family:'JetBrains Mono',monospace; font-size:0.8rem; letter-spacing:0.1em; margin-top:10px;"></p>
             </form>
             <p class="invite-note">We read every request. Personally.</p>
+
+    <script>
+    document.getElementById('invite-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('invite-btn');
+        const msg = document.getElementById('invite-msg');
+        const form = e.target;
+
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        msg.style.display = 'none';
+
+        try {
+            const res = await fetch('/api/invite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: form.name.value,
+                    email: form.email.value,
+                    role: form.role.value,
+                    why: form.why.value,
+                }),
+            });
+
+            if (res.ok) {
+                msg.style.color = 'var(--whisky)';
+                msg.textContent = 'Request received. We\'ll be in touch.';
+                msg.style.display = 'block';
+                form.reset();
+            } else {
+                throw new Error();
+            }
+        } catch {
+            msg.style.color = 'var(--ember)';
+            msg.textContent = 'Something went wrong. Please try again.';
+            msg.style.display = 'block';
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Request Invite';
+        }
+    });
+    </script>
         </div>
     </section>
 
